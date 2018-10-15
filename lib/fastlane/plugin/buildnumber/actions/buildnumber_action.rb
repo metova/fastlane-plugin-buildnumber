@@ -17,7 +17,7 @@ module Fastlane
       end
 
       def self.details
-        "This plugin generates unique build numbers for iOS projects combine a custom epoch to ensure always increasing build number and a decimal version of the githash, which can be reversed to find the commit the build comes from. This plugin elimintes the need to ever make commits to solely update the build number, or use git's tagging/branching to identify where builds come from."
+        "This plugin generates unique build numbers for projects combined a custom epoch to ensure always increasing build number and a decimal version of the githash, which can be reversed to find the commit the build comes from."
       end
 
       def self.return_value
@@ -38,15 +38,13 @@ module Fastlane
       end
 
       def self.run(params)
-        commit = `git rev-parse --short HEAD`
-        commitInt = Integer("0x1#{commit}")
-        masterCommitDate = `git show -s --format=%ci #{params[:git]}`
-        epochTime = DateTime.now() - DateTime.parse(masterCommitDate) #minutes since specified git commit/tag/branch
-        epochTimeMinutes = (epochTime * 24 * 60).to_i
+        current_commit = `git rev-parse --short HEAD`
+        current_commit_decimalized = Integer("0x1#{current_commit}")
+        git_commit_date = `git show -s --format=%ci #{params[:git]}`
+        time_since_git = DateTime.now - DateTime.parse(git_commit_date) # minutes since specified git commit/tag/branch
+        time_since_git_minutes = (time_since_git * 24 * 60).to_i
 
-        return "#{epochTimeMinutes}.#{commitInt}"
-
-        UI.success(" Success! Build number defined as #{buildNumber}")
+        return "#{time_since_git_minutes}.#{current_commit_decimalized}"
       end
     end
   end
