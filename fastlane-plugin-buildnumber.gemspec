@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = 'nick.griffith@metova.com'
 
   spec.summary       = 'Generates unique build numbers for iOS projects.'
-  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-buildnumber"
+  spec.homepage      = "https://github.com/metova/fastlane-plugin-buildnumber"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)
